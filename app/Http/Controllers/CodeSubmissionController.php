@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\CommonComprehensionProblem;
 
 class CodeSubmissionController extends Controller
 {
@@ -15,21 +16,28 @@ class CodeSubmissionController extends Controller
             'classificacao' => 'nullable|string',
         ]);
 
+        $classifications = CommonComprehensionProblem::all();
+
         $prompt = <<<PROMPT
-        Analise o código abaixo e **identifique problemas comuns de compreensão de código (PC3)**, como:
+        Analise o código abaixo e identifique problemas comuns de compreensão de código (PC3), usando a lista de classificações fornecida. Para cada problema encontrado, associe o código correspondente (como C8, B6, etc.) com base na descrição.
         
-        - variáveis não usadas
-        - loops desnecessários
-        - nomes confusos
-        - lógica desnecessariamente complexa
-        - problemas de estilo e clareza
+        ### Classificações disponíveis:
+        $classifications
         
-        Responda **apenas em JSON**, sem explicações adicionais. Use o seguinte formato:
+        Retorne APENAS EM JSON neste formato:
         
         {
           "problemas": [
-            "Descreva o problema 1.",
-            "Descreva o problema 2."
+            {
+              "codigo": "C8",
+              "descricao": "Laço for com variável responsável pela iteração sendo sobrescrita",
+              "linha": 12
+            },
+            {
+              "codigo": "G4",
+              "descricao": "Variável com nome não significativo",
+              "linha": 5
+            }
           ]
         }
         

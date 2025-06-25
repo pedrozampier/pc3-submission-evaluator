@@ -46,23 +46,25 @@ class CodeSubmissionController extends Controller
         PROMPT;
         
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('OPENROUTER_API_KEY'),
+            'x-api-key' => env('ANTHROPIC_API_KEY'),
+            'anthropic-version' => '2023-06-01',
             'Content-Type' => 'application/json',
-        ])->post('https://openrouter.ai/api/v1/chat/completions', [
-            'model' => 'deepseek/deepseek-r1-0528-qwen3-8b:free',
+        ])->post('https://api.anthropic.com/v1/messages', [
+
+            'model' => 'claude-3-5-sonnet-20240620',
+            'system' => 'Você é um revisor de código.',
+            'max_tokens' => 2048,
             'messages' => [
-                ['role' => 'system', 'content' => 'Você é um revisor de código.'],
                 ['role' => 'user', 'content' => $prompt],
             ],
         ]);
 
-        $raw = $response->json('choices.0.message.content') ?? '';
+        $raw = $response->json('content.0.text') ?? '';
 
         $decoded = json_decode($raw, true);
 
         return response()->json([
             'problemas_detectados' => $decoded['problemas'] ?? [$raw],
         ]);
-
     }
 }

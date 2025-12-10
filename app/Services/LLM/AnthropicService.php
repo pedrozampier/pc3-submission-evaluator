@@ -126,15 +126,12 @@ class AnthropicService implements LLMServiceInterface
     {
         $text = $rawResponse;
 
-        // Remove tags XML de análise
         $text = preg_replace('/<analysis>.*?<\/analysis>/s', '', $text);
         $text = preg_replace('/<code_review>.*?<\/code_review>/s', '', $text);
 
-        // Remove markdown code blocks
         $text = preg_replace('/```json\s*/s', '', $text);
         $text = preg_replace('/```\s*$/s', '', $text);
 
-        // Tenta extrair JSON
         if (preg_match('/\{[\s\S]*"problemas"[\s\S]*\}/U', $text, $matches)) {
             $jsonString = $matches[0];
             $decoded = json_decode($jsonString, true);
@@ -144,7 +141,6 @@ class AnthropicService implements LLMServiceInterface
             }
         }
 
-        // Tenta decodificar o texto inteiro
         $decoded = json_decode($text, true);
         if (json_last_error() === JSON_ERROR_NONE && isset($decoded['problemas'])) {
             return $this->convertToProblems($decoded['problemas']);

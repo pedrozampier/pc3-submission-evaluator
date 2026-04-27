@@ -21,9 +21,9 @@
 
 ### Schema
 
-- [ ] **SCHEMA-01**: LLM structured output schema includes: `provider`, `model`, `diagnosis`, `pc3_category` (enum: Predicate/Concept/Context), `feedback`, `confidence` (self-reported float 0.0–1.0), `tokens_input`, `tokens_output`
-- [ ] **SCHEMA-02**: `pc3_category` enforced as enum at schema level — Predicate, Concept, or Context only
-- [ ] **SCHEMA-03**: `confidence` clamped to [0.0, 1.0] in PHP post-processing (Anthropic silently strips numeric constraints)
+- [x] **SCHEMA-01**: LLM structured output schema includes: `provider`, `model`, `diagnosis`, `pc3_category` (enum: Predicate/Concept/Context), `feedback`, `confidence` (self-reported float 0.0–1.0), `tokens_input`, `tokens_output`
+- [x] **SCHEMA-02**: `pc3_category` enforced as enum at schema level — Predicate, Concept, or Context only
+- [x] **SCHEMA-03**: `confidence` clamped to [0.0, 1.0] in PHP post-processing (Anthropic silently strips numeric constraints)
 
 ### Persistence
 
@@ -66,9 +66,9 @@
 | REQ-ID | Phase | Status | Notes |
 |--------|-------|--------|-------|
 | SETUP-01 | Phase 1 — Foundation | Complete | Git reset is a prerequisite for all phases |
-| SCHEMA-01 | Phase 1 — Foundation | Pending | `ObjectSchema` + DTO definitions |
-| SCHEMA-02 | Phase 1 — Foundation | Pending | `EnumSchema` for `pc3_category` |
-| SCHEMA-03 | Phase 1 — Foundation | Pending | PHP clamping in `ProviderResult::fromPrismResponse()` |
+| SCHEMA-01 | Phase 1 — Foundation | Complete | `ObjectSchema` + DTO definitions |
+| SCHEMA-02 | Phase 1 — Foundation | Complete | `EnumSchema` for `pc3_category` |
+| SCHEMA-03 | Phase 1 — Foundation | Complete | PHP clamping in `ProviderResult::fromPrismResponse()` |
 | PERSIST-01 | Phase 1 — Foundation | Pending | Migration + Eloquent model |
 | PERSIST-03 | Phase 1 — Foundation | Pending | UUID generation in DTO / service |
 | PERSIST-04 | Phase 1 — Foundation | Pending | `prompt_version` column in migration |

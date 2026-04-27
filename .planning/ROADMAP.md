@@ -16,7 +16,7 @@ third, and wire the thin HTTP controller last.
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - DTOs, shared Prism schema, Eloquent model, and migration
+- [ ] **Phase 1: Foundation** - DTOs, shared Agent schema (laravel/ai), Eloquent model, and migration
 - [ ] **Phase 2: Single-Provider Integration** - prism-php wired for Anthropic + PC³ prompt builder
 - [ ] **Phase 3: Parallel Fan-Out** - All 4 providers dispatched concurrently with partial-result isolation
 - [ ] **Phase 4: HTTP Layer** - Controller, FormRequest validation, and route registration
@@ -24,15 +24,18 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Foundation
-**Goal**: The data contract is fixed — DTOs, the shared Prism ObjectSchema, and the persistence layer are all fully defined and verifiable without any provider call.
+**Goal**: The data contract is fixed — DTOs, the shared Agent schema (laravel/ai), and the persistence layer are all fully defined and verifiable without any provider call.
 **Depends on**: Nothing (first phase)
 **Requirements**: SETUP-01, SCHEMA-01, SCHEMA-02, SCHEMA-03, PERSIST-01, PERSIST-03, PERSIST-04
 **Success Criteria** (what must be TRUE):
   1. Running `php artisan migrate` on a fresh checkout completes without error and produces the `diagnostic_results` table with all required columns (`provider`, `model`, `diagnosis`, `pc3_category`, `feedback`, `confidence`, `tokens_input`, `tokens_output`, `request_id`, `prompt_version`, `created_at`).
   2. A `ProviderResult` DTO can be instantiated in `tinker` with a `confidence` value outside [0, 1] and the clamped value is stored correctly when persisted via `DiagnosticResultRepository`.
-  3. The shared Prism `ObjectSchema` uses `EnumSchema` for `pc3_category` (values: Predicate, Concept, Context) and all fields are in `requiredFields` — verifiable by inspecting the builder output.
-  4. The git repo has a clean `main` branch running Laravel 12 and a `legacy/v1` branch preserving the old codebase.
-**Plans**: TBD
+  3. The shared `DiagnosticAgent::schema()` uses `$schema->string()->enum(['Predicate', 'Concept', 'Context'])->required()` for `pc3_category` and every field is marked `->required()` — verifiable by inspecting the agent source.
+  4. The git repo has a clean `main` branch running a fresh Laravel 13 install and a `legacy/v1` branch preserving the old codebase.
+**Plans:** 3 plans
+- [ ] 01-01-PLAN.md — Git reset (legacy/v1 + orphan main) + fresh Laravel 13 + laravel/ai install (SETUP-01)
+- [ ] 01-02-PLAN.md — Pc3Category enum, ProviderResult DTO with fromPrismResponse() factory, and DiagnosticAgent shared schema (SCHEMA-01/02/03)
+- [ ] 01-03-PLAN.md — diagnostic_results migration with CHECK constraint, DiagnosticResult Eloquent model, and DiagnosticResultRepository::save() (PERSIST-01/03/04)
 
 ### Phase 2: Single-Provider Integration
 **Goal**: A single live Anthropic call returns a schema-compliant `ProviderResult` that can be persisted — proving the SDK is correctly wired before any concurrency is introduced.
@@ -72,7 +75,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/? | Not started | - |
+| 1. Foundation | 0/3 | Not started | - |
 | 2. Single-Provider Integration | 0/? | Not started | - |
 | 3. Parallel Fan-Out | 0/? | Not started | - |
 | 4. HTTP Layer | 0/? | Not started | - |

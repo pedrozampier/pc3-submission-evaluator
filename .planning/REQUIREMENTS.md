@@ -10,7 +10,7 @@
 
 ### Setup
 
-- [ ] **SETUP-01**: Git repo reset to fresh Laravel 12 on `main`, old code preserved on `legacy/v1`
+- [x] **SETUP-01**: Git repo reset to fresh Laravel 12 on `main`, old code preserved on `legacy/v1`
 - [ ] **SETUP-02**: prism-php/prism installed and configured for Anthropic, OpenAI, Google Gemini, and DeepSeek
 
 ### API
@@ -65,7 +65,7 @@
 
 | REQ-ID | Phase | Status | Notes |
 |--------|-------|--------|-------|
-| SETUP-01 | Phase 1 — Foundation | Pending | Git reset is a prerequisite for all phases |
+| SETUP-01 | Phase 1 — Foundation | Complete | Git reset is a prerequisite for all phases |
 | SCHEMA-01 | Phase 1 — Foundation | Pending | `ObjectSchema` + DTO definitions |
 | SCHEMA-02 | Phase 1 — Foundation | Pending | `EnumSchema` for `pc3_category` |
 | SCHEMA-03 | Phase 1 — Foundation | Pending | PHP clamping in `ProviderResult::fromPrismResponse()` |

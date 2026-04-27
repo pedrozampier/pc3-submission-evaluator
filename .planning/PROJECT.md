@@ -17,17 +17,19 @@ All four providers respond to a single diagnostic request in parallel and every 
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Git repo reset to fresh Laravel 13 on `main`, old code preserved on `legacy/v1` — *Validated in Phase 1: Foundation*
+- [x] `Pc3Category` backed string enum (Predicate/Concept/Context) — *Validated in Phase 1: Foundation*
+- [x] `ProviderResult` immutable DTO with `fromPrismResponse()` factory and confidence clamping — *Validated in Phase 1: Foundation*
+- [x] `DiagnosticAgent` structured-output schema with all fields required — *Validated in Phase 1: Foundation*
+- [x] `DiagnosticResult` Eloquent model and migration persist every provider result — *Validated in Phase 1: Foundation*
 
 ### Active
 
-- [ ] Git repo reset to fresh Laravel 12 on `main`, old code preserved on `legacy/v1`
-- [ ] Laravel AI SDK installed and configured for Anthropic, OpenAI, Google, DeepSeek
+- [ ] laravel/ai SDK wired for Anthropic — single live call returns schema-compliant ProviderResult
 - [ ] `POST /api/diagnose` accepts `code` (TypeScript) and `statement` (string)
 - [ ] All 4 providers are called in parallel per request
 - [ ] LLM structured output includes: `provider`, `model`, `diagnosis`, `pc3_category`, `feedback`, `confidence` (self-reported float), `tokens_input`, `tokens_output`
 - [ ] Partial results returned when individual providers fail (failed providers omitted from array)
-- [ ] `DiagnosticResult` Eloquent model and migration persist every provider result
 - [ ] System prompt instructs the LLM to apply PC³ taxonomy classification
 
 ### Out of Scope
@@ -61,11 +63,12 @@ All four providers respond to a single diagnostic request in parallel and every 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Fresh orphan `main`, old code → `legacy/v1` | Avoids polluting history while keeping old work accessible | — Pending |
-| prism-php/prism as AI SDK | Supports all 4 required providers with a unified interface | — Pending |
-| Self-reported LLM confidence | Simplest approach for MVP; avoids token probability hacks | — Pending |
-| Partial array on provider failure | Research still valuable with 3/4 providers; hard failure loses data | — Pending |
-| Structured output schema | Ensures consistent parseable responses across all providers | — Pending |
+| Fresh orphan `main`, old code → `legacy/v1` | Avoids polluting history while keeping old work accessible | Done — `legacy/v1` at ef5d869, `main` at bb98f63 (no shared history) |
+| laravel/ai SDK (not prism-php) | User correction — laravel/ai v0.6.3 is the chosen SDK | Installed; `agent_conversations` migration published with scaffold |
+| `Blueprint::rawColumn()` for CHECK constraint | `Blueprint::check()` absent in Laravel 13.6.0 | Named constraint `check_pc3_category` via raw DDL — SQLite confirmed |
+| `$instance->structured` direct assignment | `makeStubResponse()` uses public `structured` property, not constructor | Confirmed via reflection in plan 02 SUMMARY |
+| Self-reported LLM confidence | Simplest approach for MVP; avoids token probability hacks | — Pending Phase 2 |
+| Partial array on provider failure | Research still valuable with 3/4 providers; hard failure loses data | — Pending Phase 3 |
 
 ## Evolution
 
@@ -85,4 +88,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-27 after initialization*
+*Last updated: 2026-04-27 after Phase 1: Foundation*

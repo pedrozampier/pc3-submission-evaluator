@@ -16,7 +16,7 @@ third, and wire the thin HTTP controller last.
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - DTOs, shared Agent schema (laravel/ai), Eloquent model, and migration
+- [x] **Phase 1: Foundation** - DTOs, shared Agent schema (laravel/ai), Eloquent model, and migration (completed 2026-04-27)
 - [ ] **Phase 2: Single-Provider Integration** - prism-php wired for Anthropic + PC³ prompt builder
 - [ ] **Phase 3: Parallel Fan-Out** - All 4 providers dispatched concurrently with partial-result isolation
 - [ ] **Phase 4: HTTP Layer** - Controller, FormRequest validation, and route registration
@@ -32,10 +32,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. A `ProviderResult` DTO can be instantiated in `tinker` with a `confidence` value outside [0, 1] and the clamped value is stored correctly when persisted via `DiagnosticResultRepository`.
   3. The shared `DiagnosticAgent::schema()` uses `$schema->string()->enum(['Predicate', 'Concept', 'Context'])->required()` for `pc3_category` and every field is marked `->required()` — verifiable by inspecting the agent source.
   4. The git repo has a clean `main` branch running a fresh Laravel 13 install and a `legacy/v1` branch preserving the old codebase.
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 - [x] 01-01-PLAN.md — Git reset (legacy/v1 + orphan main) + fresh Laravel 13 + laravel/ai install (SETUP-01)
 - [x] 01-02-PLAN.md — Pc3Category enum, ProviderResult DTO with fromPrismResponse() factory, and DiagnosticAgent shared schema (SCHEMA-01/02/03)
-- [ ] 01-03-PLAN.md — diagnostic_results migration with CHECK constraint, DiagnosticResult Eloquent model, and DiagnosticResultRepository::save() (PERSIST-01/03/04)
+- [x] 01-03-PLAN.md — diagnostic_results migration with CHECK constraint, DiagnosticResult Eloquent model, and DiagnosticResultRepository::save() (PERSIST-01/03/04)
 
 ### Phase 2: Single-Provider Integration
 **Goal**: A single live Anthropic call returns a schema-compliant `ProviderResult` that can be persisted — proving the SDK is correctly wired before any concurrency is introduced.
@@ -75,7 +75,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/3 | In Progress|  |
+| 1. Foundation | 3/3 | Complete   | 2026-04-27 |
 | 2. Single-Provider Integration | 0/? | Not started | - |
 | 3. Parallel Fan-Out | 0/? | Not started | - |
 | 4. HTTP Layer | 0/? | Not started | - |

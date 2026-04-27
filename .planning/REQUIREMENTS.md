@@ -27,10 +27,10 @@
 
 ### Persistence
 
-- [ ] **PERSIST-01**: `DiagnosticResult` Eloquent model and migration persist every provider result row
+- [x] **PERSIST-01**: `DiagnosticResult` Eloquent model and migration persist every provider result row
 - [ ] **PERSIST-02**: Every result saved synchronously before response is returned (no fire-and-forget)
-- [ ] **PERSIST-03**: `request_id` (UUID) generated per POST call and stored on every result row to group the 4 provider results from one submission
-- [ ] **PERSIST-04**: `prompt_version` string column on every row (e.g., "v1.0") — controlled variable for research reproducibility
+- [x] **PERSIST-03**: `request_id` (UUID) generated per POST call and stored on every result row to group the 4 provider results from one submission
+- [x] **PERSIST-04**: `prompt_version` string column on every row (e.g., "v1.0") — controlled variable for research reproducibility
 
 ### Prompt
 
@@ -69,9 +69,9 @@
 | SCHEMA-01 | Phase 1 — Foundation | Complete | `ObjectSchema` + DTO definitions |
 | SCHEMA-02 | Phase 1 — Foundation | Complete | `EnumSchema` for `pc3_category` |
 | SCHEMA-03 | Phase 1 — Foundation | Complete | PHP clamping in `ProviderResult::fromPrismResponse()` |
-| PERSIST-01 | Phase 1 — Foundation | Pending | Migration + Eloquent model |
-| PERSIST-03 | Phase 1 — Foundation | Pending | UUID generation in DTO / service |
-| PERSIST-04 | Phase 1 — Foundation | Pending | `prompt_version` column in migration |
+| PERSIST-01 | Phase 1 — Foundation | Complete | Migration + Eloquent model |
+| PERSIST-03 | Phase 1 — Foundation | Complete | UUID generation in DTO / service |
+| PERSIST-04 | Phase 1 — Foundation | Complete | `prompt_version` column in migration |
 | SETUP-02 | Phase 2 — Single-Provider Integration | Pending | prism-php configured for Anthropic first, then all providers in Phase 3 |
 | PROMPT-01 | Phase 2 — Single-Provider Integration | Pending | `DiagnosticPromptBuilder` with PC³ system prompt |
 | PROMPT-02 | Phase 2 — Single-Provider Integration | Pending | Prompt as private const in `DiagnosticPromptBuilder` |

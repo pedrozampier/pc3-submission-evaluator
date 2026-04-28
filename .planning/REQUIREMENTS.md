@@ -16,8 +16,8 @@
 ### API
 
 - [ ] **API-01**: `POST /api/diagnose` accepts `code` (TypeScript string, required) and `statement` (string, required)
-- [ ] **API-02**: All 4 providers are called in parallel per request (not sequentially)
-- [ ] **API-03**: Partial results returned when individual providers fail (failed providers omitted from array)
+- [x] **API-02**: All 4 providers are called in parallel per request (not sequentially)
+- [x] **API-03**: Partial results returned when individual providers fail (failed providers omitted from array)
 
 ### Schema
 
@@ -28,7 +28,7 @@
 ### Persistence
 
 - [x] **PERSIST-01**: `DiagnosticResult` Eloquent model and migration persist every provider result row
-- [ ] **PERSIST-02**: Every result saved synchronously before response is returned (no fire-and-forget)
+- [x] **PERSIST-02**: Every result saved synchronously before response is returned (no fire-and-forget)
 - [x] **PERSIST-03**: `request_id` (UUID) generated per POST call and stored on every result row to group the 4 provider results from one submission
 - [x] **PERSIST-04**: `prompt_version` string column on every row (e.g., "v1.0") — controlled variable for research reproducibility
 
@@ -75,7 +75,7 @@
 | SETUP-02 | Phase 2 — Single-Provider Integration | Complete | prism-php configured for Anthropic first, then all providers in Phase 3 |
 | PROMPT-01 | Phase 2 — Single-Provider Integration | Complete | `DiagnosticPromptBuilder` with PC³ system prompt |
 | PROMPT-02 | Phase 2 — Single-Provider Integration | Complete | Prompt as private const in `DiagnosticPromptBuilder` |
-| API-02 | Phase 3 — Parallel Fan-Out | Pending | `Http::pool()` parallel dispatch |
-| API-03 | Phase 3 — Parallel Fan-Out | Pending | Per-provider try/catch, null filtering |
-| PERSIST-02 | Phase 3 — Parallel Fan-Out | Pending | Synchronous persist inside service after pool |
+| API-02 | Phase 3 — Parallel Fan-Out | Complete | `Http::pool()` parallel dispatch |
+| API-03 | Phase 3 — Parallel Fan-Out | Complete | Per-provider try/catch, null filtering |
+| PERSIST-02 | Phase 3 — Parallel Fan-Out | Complete | Synchronous persist inside service after pool |
 | API-01 | Phase 4 — HTTP Layer | Pending | Controller and FormRequest validation |

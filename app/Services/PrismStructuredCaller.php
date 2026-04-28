@@ -11,29 +11,29 @@ use App\Repositories\DiagnosticResultRepository;
 final class PrismStructuredCaller
 {
     public function __construct(
+        private readonly string $provider,
+        private readonly string $model,
         private readonly DiagnosticResultRepository $repository,
     ) {}
 
     /**
-     * Call the Anthropic provider for a single structured diagnostic result.
+     * Call the given provider for a single structured diagnostic result.
      */
     public function call(string $code, string $statement, string $requestId): ProviderResult
     {
-        $model = config('ai.providers.anthropic.models.text.default');
-
         $userMessage = DiagnosticPromptBuilder::userMessage($code, $statement);
 
         /** @var \Laravel\Ai\Responses\StructuredAgentResponse $response */
         $response = (new DiagnosticAgent)->prompt(
             $userMessage,
-            provider: 'anthropic',
-            model: $model,
+            provider: $this->provider,
+            model:    $this->model,
         );
 
         $result = ProviderResult::fromPrismResponse(
             response:      $response,
-            provider:      'anthropic',
-            model:         $model,
+            provider:      $this->provider,
+            model:         $this->model,
             requestId:     $requestId,
             promptVersion: DiagnosticPromptBuilder::promptVersion(),
         );

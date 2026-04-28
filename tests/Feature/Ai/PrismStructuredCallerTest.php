@@ -24,7 +24,11 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
         ],
     ]);
 
-    $caller    = new PrismStructuredCaller(new DiagnosticResultRepository());
+    $caller = new PrismStructuredCaller(
+        provider:   'anthropic',
+        model:      config('ai.providers.anthropic.models.text.default'),
+        repository: new DiagnosticResultRepository(),
+    );
     $requestId = '11111111-1111-4111-8111-111111111111';
 
     $result = $caller->call(
@@ -72,7 +76,11 @@ it('passes a labeled-section user message containing both headings to the agent'
         ],
     ]);
 
-    $caller = new PrismStructuredCaller(new DiagnosticResultRepository());
+    $caller = new PrismStructuredCaller(
+        provider:   'anthropic',
+        model:      config('ai.providers.anthropic.models.text.default'),
+        repository: new DiagnosticResultRepository(),
+    );
     $caller->call(
         code:      'const x = 1;',
         statement: 'Declare a constant.',
@@ -99,7 +107,11 @@ it('clamps out-of-range confidence to [0.0, 1.0] when the LLM over-reports', fun
         ],
     ]);
 
-    $caller    = new PrismStructuredCaller(new DiagnosticResultRepository());
+    $caller = new PrismStructuredCaller(
+        provider:   'anthropic',
+        model:      config('ai.providers.anthropic.models.text.default'),
+        repository: new DiagnosticResultRepository(),
+    );
     $requestId = '33333333-3333-4333-8333-333333333333';
 
     $result = $caller->call(

@@ -89,6 +89,11 @@ return [
             'driver' => 'deepseek',
             'key' => env('DEEPSEEK_API_KEY'),
             'url' => env('DEEPSEEK_URL', 'https://api.deepseek.com'),
+            'models' => [
+                'text' => [
+                    'default' => 'deepseek-chat',
+                ],
+            ],
         ],
 
         'eleven' => [
@@ -99,6 +104,11 @@ return [
         'gemini' => [
             'driver' => 'gemini',
             'key' => env('GEMINI_API_KEY'),
+            'models' => [
+                'text' => [
+                    'default' => 'gemini-2.0-flash',
+                ],
+            ],
         ],
 
         'groq' => [
@@ -128,6 +138,11 @@ return [
             'driver' => 'openai',
             'key' => env('OPENAI_API_KEY'),
             'url' => env('OPENAI_URL', 'https://api.openai.com/v1'),
+            'models' => [
+                'text' => [
+                    'default' => 'gpt-4o',
+                ],
+            ],
         ],
 
         'openrouter' => [

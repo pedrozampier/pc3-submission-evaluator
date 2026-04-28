@@ -45,7 +45,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Calling `PrismStructuredCaller::call()` in `tinker` with a sample code snippet returns a `ProviderResult` DTO where `pc3_category` is one of Predicate/Concept/Context and `confidence` is between 0.0 and 1.0.
   2. The system prompt is a private constant in `DiagnosticPromptBuilder` (not in `.env` or config files) — verified by reading the class source.
   3. The Anthropic provider is pinned to `claude-sonnet-4-20250514` in config — no other model string appears in any provider configuration file.
-**Plans**: TBD
+**Plans:** 1 plan
+- [ ] 02-01-PLAN.md — Anthropic model pin (config/ai.php) + DiagnosticPromptBuilder (private const PC³ system prompt) + DiagnosticAgent::instructions() wiring + PrismStructuredCaller (call entry point) + faked integration test (SETUP-02, PROMPT-01, PROMPT-02)
 **UI hint**: no
 
 ### Phase 3: Parallel Fan-Out
@@ -76,6 +77,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-04-27 |
-| 2. Single-Provider Integration | 0/? | Not started | - |
+| 2. Single-Provider Integration | 0/1 | Planned | - |
 | 3. Parallel Fan-Out | 0/? | Not started | - |
 | 4. HTTP Layer | 0/? | Not started | - |

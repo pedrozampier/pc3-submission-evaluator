@@ -57,7 +57,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Calling `DiagnosticService::run()` in `tinker` produces up to four `ProviderResult` rows in the database within a single call — wall-clock time is approximately equal to the slowest provider, not the sum of all four.
   2. Killing or providing an invalid API key for one provider still returns results from the remaining three providers (partial array, no exception thrown to the caller).
   3. All successful results are present in the `diagnostic_results` table before `DiagnosticService::run()` returns — no fire-and-forget; confirmed by querying the DB immediately after the call.
-**Plans**: TBD
+**Plans:** 1 plan
+- [ ] 03-01-PLAN.md — DiagnosticService with Concurrency::run() fan-out + provider-agnostic PrismStructuredCaller refactor + 4-provider config pins + Pest tests for full/partial/all-fail (API-02, API-03, PERSIST-02)
 
 ### Phase 4: HTTP Layer
 **Goal**: The `POST /api/diagnose` endpoint is reachable, validates its inputs, delegates entirely to `DiagnosticService`, and returns the correct JSON response shape.
@@ -78,5 +79,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete   | 2026-04-27 |
 | 2. Single-Provider Integration | 0/1 | Planned | - |
-| 3. Parallel Fan-Out | 0/? | Not started | - |
+| 3. Parallel Fan-Out | 0/1 | Planned | - |
 | 4. HTTP Layer | 0/? | Not started | - |

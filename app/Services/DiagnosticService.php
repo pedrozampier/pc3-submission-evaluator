@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Concurrency;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-final class DiagnosticService
+class DiagnosticService
 {
     /**
      * Fan out a single diagnostic request to all four LLM providers in parallel.

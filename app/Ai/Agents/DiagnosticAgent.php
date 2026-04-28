@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Ai\Agents;
 
+use App\Services\DiagnosticPromptBuilder;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\HasStructuredOutput;
@@ -14,11 +15,11 @@ class DiagnosticAgent implements Agent, HasStructuredOutput
     use Promptable;
 
     /**
-     * Placeholder instructions. The real PC3 system prompt is added in Phase 2 (PROMPT-01).
+     * Returns the version-locked PC³ system prompt — see DiagnosticPromptBuilder (PROMPT-01, PROMPT-02).
      */
     public function instructions(): string
     {
-        return 'TODO Phase 2: PC3 system prompt — DO NOT prompt this agent until Phase 2 wires it.';
+        return DiagnosticPromptBuilder::systemPrompt();
     }
 
     /**

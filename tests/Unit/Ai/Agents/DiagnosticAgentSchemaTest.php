@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Ai\Agents\DiagnosticAgent;
+use App\Services\DiagnosticPromptBuilder;
 use Illuminate\JsonSchema\JsonSchemaTypeFactory;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\HasStructuredOutput;
@@ -29,9 +30,23 @@ it('declares the six expected schema keys', function () {
     ]);
 });
 
-it('returns a non-empty placeholder instructions string', function () {
+it('returns the PC3 system prompt from DiagnosticPromptBuilder', function () {
     $agent = new DiagnosticAgent();
-    expect($agent->instructions())->toBeString()->not->toBe('');
+    expect($agent->instructions())->toBe(DiagnosticPromptBuilder::systemPrompt());
+});
+
+it('does not return the Phase 1 TODO placeholder', function () {
+    $agent = new DiagnosticAgent();
+    expect($agent->instructions())->not->toContain('TODO');
+});
+
+it('contains all three PC3 category names in instructions', function () {
+    $agent = new DiagnosticAgent();
+    $instructions = $agent->instructions();
+    expect($instructions)
+        ->toContain('Predicate')
+        ->toContain('Concept')
+        ->toContain('Context');
 });
 
 it('declares pc3_category as a string enum of the three PC3 values', function () {

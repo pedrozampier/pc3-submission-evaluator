@@ -54,6 +54,11 @@ return [
             'driver' => 'anthropic',
             'key' => env('ANTHROPIC_API_KEY'),
             'url' => env('ANTHROPIC_URL', 'https://api.anthropic.com/v1'),
+            'models' => [
+                'text' => [
+                    'default' => 'claude-sonnet-4-20250514',
+                ],
+            ],
         ],
 
         'azure' => [

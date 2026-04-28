@@ -46,7 +46,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. The system prompt is a private constant in `DiagnosticPromptBuilder` (not in `.env` or config files) — verified by reading the class source.
   3. The Anthropic provider is pinned to `claude-sonnet-4-20250514` in config — no other model string appears in any provider configuration file.
 **Plans:** 1 plan
-- [ ] 02-01-PLAN.md — Anthropic model pin (config/ai.php) + DiagnosticPromptBuilder (private const PC³ system prompt) + DiagnosticAgent::instructions() wiring + PrismStructuredCaller (call entry point) + faked integration test (SETUP-02, PROMPT-01, PROMPT-02)
+- [x] 02-01-PLAN.md — Anthropic model pin (config/ai.php) + DiagnosticPromptBuilder (private const PC³ system prompt) + DiagnosticAgent::instructions() wiring + PrismStructuredCaller (call entry point) + faked integration test (SETUP-02, PROMPT-01, PROMPT-02)
 **UI hint**: no
 
 ### Phase 3: Parallel Fan-Out

@@ -11,7 +11,7 @@
 ### Setup
 
 - [x] **SETUP-01**: Git repo reset to fresh Laravel 12 on `main`, old code preserved on `legacy/v1`
-- [ ] **SETUP-02**: prism-php/prism installed and configured for Anthropic, OpenAI, Google Gemini, and DeepSeek
+- [x] **SETUP-02**: prism-php/prism installed and configured for Anthropic, OpenAI, Google Gemini, and DeepSeek
 
 ### API
 
@@ -34,8 +34,8 @@
 
 ### Prompt
 
-- [ ] **PROMPT-01**: System prompt instructs the LLM to apply PC³ taxonomy classification (Predicate / Concept / Context)
-- [ ] **PROMPT-02**: System prompt is version-locked in code (not environment config) — changes only via code commit
+- [x] **PROMPT-01**: System prompt instructs the LLM to apply PC³ taxonomy classification (Predicate / Concept / Context)
+- [x] **PROMPT-02**: System prompt is version-locked in code (not environment config) — changes only via code commit
 
 ---
 
@@ -72,9 +72,9 @@
 | PERSIST-01 | Phase 1 — Foundation | Complete | Migration + Eloquent model |
 | PERSIST-03 | Phase 1 — Foundation | Complete | UUID generation in DTO / service |
 | PERSIST-04 | Phase 1 — Foundation | Complete | `prompt_version` column in migration |
-| SETUP-02 | Phase 2 — Single-Provider Integration | Pending | prism-php configured for Anthropic first, then all providers in Phase 3 |
-| PROMPT-01 | Phase 2 — Single-Provider Integration | Pending | `DiagnosticPromptBuilder` with PC³ system prompt |
-| PROMPT-02 | Phase 2 — Single-Provider Integration | Pending | Prompt as private const in `DiagnosticPromptBuilder` |
+| SETUP-02 | Phase 2 — Single-Provider Integration | Complete | prism-php configured for Anthropic first, then all providers in Phase 3 |
+| PROMPT-01 | Phase 2 — Single-Provider Integration | Complete | `DiagnosticPromptBuilder` with PC³ system prompt |
+| PROMPT-02 | Phase 2 — Single-Provider Integration | Complete | Prompt as private const in `DiagnosticPromptBuilder` |
 | API-02 | Phase 3 — Parallel Fan-Out | Pending | `Http::pool()` parallel dispatch |
 | API-03 | Phase 3 — Parallel Fan-Out | Pending | Per-provider try/catch, null filtering |
 | PERSIST-02 | Phase 3 — Parallel Fan-Out | Pending | Synchronous persist inside service after pool |

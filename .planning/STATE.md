@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Phase 4 context gathered
-last_updated: "2026-04-28T16:56:01.994Z"
+stopped_at: Completed 04-01-PLAN.md — POST /api/diagnose endpoint wired
+last_updated: "2026-04-28T17:50:44.210Z"
 last_activity: 2026-04-28
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
+  completed_phases: 4
+  total_plans: 6
+  completed_plans: 6
   percent: 0
 ---
 
@@ -21,11 +21,11 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-27)
 
 **Core value:** All four LLM providers respond to a single diagnostic request in parallel and every result is persisted — making multi-LLM comparison reproducible.
-**Current focus:** Phase 03 — parallel-fan-out
+**Current focus:** Phase 04 — http-layer
 
 ## Current Position
 
-Phase: 03 (parallel-fan-out) — EXECUTING
+Phase: 04 (http-layer) — EXECUTING
 Plan: 1 of 1
 Status: Phase complete — ready for verification
 Last activity: 2026-04-28
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-foundation P03 | 4 | 3 tasks | 4 files |
 | Phase 02-single-provider-integration P01 | 5 | 3 tasks | 6 files |
 | Phase 03-parallel-fan-out P01 | 4 | 3 tasks | 5 files |
+| Phase 04 P01 | 197 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,9 @@ Recent decisions affecting current work:
 - [Phase 03-parallel-fan-out]: Concurrency facade (not Concurrently) — CONTEXT.md D-03 typo corrected; use Illuminate\Support\Facades\Concurrency
 - [Phase 03-parallel-fan-out]: DiagnosticService uses verbose 4-closure spelling instead of a loop — explicit use capture is SerializableClosure-friendly for ProcessDriver
 - [Phase 03-parallel-fan-out]: PrismStructuredCaller refactored (not retired) — constructor gains provider+model; call() signature unchanged (D-01)
+- [Phase 04]: DiagnoseController uses constructor injection for DiagnosticService — required for Mockery in feature tests
+- [Phase 04]: DiagnosticService final keyword removed — was blocking Mockery from replacing it in tests; no behavior change
+- [Phase 04]: routes/api.php created manually without php artisan install:api to avoid pulling in Sanctum (out of scope)
 
 ### Pending Todos
 
@@ -91,7 +95,7 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-28T16:56:01.990Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-http-layer/04-CONTEXT.md
+Last session: 2026-04-28T17:50:44.206Z
+Stopped at: Completed 04-01-PLAN.md — POST /api/diagnose endpoint wired
+Resume file: None
 Resume context: Phase 2 plan verified (3/3 REQ-IDs covered). 1 plan, 1 wave. Ready to execute Phase 2.

@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - DTOs, shared Agent schema (laravel/ai), Eloquent model, and migration (completed 2026-04-27)
 - [ ] **Phase 2: Single-Provider Integration** - prism-php wired for Anthropic + PC³ prompt builder
 - [x] **Phase 3: Parallel Fan-Out** - All 4 providers dispatched concurrently with partial-result isolation (completed 2026-04-28)
-- [ ] **Phase 4: HTTP Layer** - Controller, FormRequest validation, and route registration
+- [x] **Phase 4: HTTP Layer** - Controller, FormRequest validation, and route registration (completed 2026-04-28)
 
 ## Phase Details
 
@@ -68,8 +68,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. `POST /api/diagnose` with valid `code` and `statement` fields returns HTTP 200 with a JSON array of provider diagnostic objects matching the defined schema.
   2. `POST /api/diagnose` with missing `code` or `statement` returns HTTP 422 with a validation error response — no provider calls are made.
   3. A curl request to the running app completes end-to-end: four (or partial) diagnostic rows appear in the DB and the response body contains the same data.
-**Plans:** 1 plan
-- [ ] 04-01-PLAN.md — routes/api.php + DiagnoseRequest (required|string) + DiagnoseController (snake_case mapping, HTTP 503 on empty) + 4 feature tests covering 200/422/422/503 (API-01)
+**Plans:** 1/1 plans complete
+- [x] 04-01-PLAN.md — routes/api.php + DiagnoseRequest (required|string) + DiagnoseController (snake_case mapping, HTTP 503 on empty) + 4 feature tests covering 200/422/422/503 (API-01)
 
 ## Progress
 
@@ -81,4 +81,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 3/3 | Complete   | 2026-04-27 |
 | 2. Single-Provider Integration | 0/1 | Planned | - |
 | 3. Parallel Fan-Out | 1/1 | Complete   | 2026-04-28 |
-| 4. HTTP Layer | 0/1 | Planned | - |
+| 4. HTTP Layer | 1/1 | Complete   | 2026-04-28 |

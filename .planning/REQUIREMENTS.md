@@ -15,7 +15,7 @@
 
 ### API
 
-- [ ] **API-01**: `POST /api/diagnose` accepts `code` (TypeScript string, required) and `statement` (string, required)
+- [x] **API-01**: `POST /api/diagnose` accepts `code` (TypeScript string, required) and `statement` (string, required)
 - [x] **API-02**: All 4 providers are called in parallel per request (not sequentially)
 - [x] **API-03**: Partial results returned when individual providers fail (failed providers omitted from array)
 
@@ -78,4 +78,4 @@
 | API-02 | Phase 3 — Parallel Fan-Out | Complete | `Http::pool()` parallel dispatch |
 | API-03 | Phase 3 — Parallel Fan-Out | Complete | Per-provider try/catch, null filtering |
 | PERSIST-02 | Phase 3 — Parallel Fan-Out | Complete | Synchronous persist inside service after pool |
-| API-01 | Phase 4 — HTTP Layer | Pending | Controller and FormRequest validation |
+| API-01 | Phase 4 — HTTP Layer | Complete | Controller and FormRequest validation |

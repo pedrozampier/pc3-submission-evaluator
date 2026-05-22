@@ -14,7 +14,7 @@ it('implements both Agent and HasStructuredOutput contracts', function () {
     expect($agent)->toBeInstanceOf(HasStructuredOutput::class);
 });
 
-it('declares the six expected schema keys', function () {
+it('declares the seven expected schema keys', function () {
     $agent = new DiagnosticAgent();
     $schema = new JsonSchemaTypeFactory();
 
@@ -23,6 +23,7 @@ it('declares the six expected schema keys', function () {
     expect(array_keys($shape))->toBe([
         'diagnosis',
         'pc3_category',
+        'error_code',
         'feedback',
         'confidence',
         'tokens_input',
@@ -58,10 +59,16 @@ it('declares pc3_category as a string enum of the three PC3 values', function ()
     expect($source)->toContain("->required()"); // appears for every field
 });
 
+it('declares error_code as a string enum of all eleven values', function () {
+    $source = file_get_contents(__DIR__ . '/../../../../app/Ai/Agents/DiagnosticAgent.php');
+    expect($source)->toContain("'error_code'");
+    expect($source)->toContain("->enum(['B6', 'B8', 'B9', 'B12', 'C1', 'C3', 'C8', 'G3', 'G4', 'H1', 'NONE'])");
+});
+
 it('declares every field as required', function () {
-    // Source-level verification: count ->required() occurrences. Schema has 6 fields,
-    // each must be required — so the count is at least 6.
+    // Source-level verification: count ->required() occurrences. Schema has 7 fields,
+    // each must be required — so the count is at least 7.
     $source = file_get_contents(__DIR__ . '/../../../../app/Ai/Agents/DiagnosticAgent.php');
     $occurrences = substr_count($source, '->required()');
-    expect($occurrences)->toBeGreaterThanOrEqual(6);
+    expect($occurrences)->toBeGreaterThanOrEqual(7);
 });

@@ -14,6 +14,7 @@ final class DiagnosticResultRepository
      *
      * Pitfall 3 (RESEARCH.md): we MUST write `pc3Category->value` (the string), not the enum object.
      * Eloquent's enum cast converts string→enum on READ; on WRITE via create(), it expects the string.
+     * Same applies to errorCode->value for the error_code column.
      */
     public function save(ProviderResult $dto): DiagnosticResult
     {
@@ -22,6 +23,7 @@ final class DiagnosticResultRepository
             'model'          => $dto->model,
             'diagnosis'      => $dto->diagnosis,
             'pc3_category'   => $dto->pc3Category->value,
+            'error_code'     => $dto->errorCode->value,
             'feedback'       => $dto->feedback,
             'confidence'     => $dto->confidence,
             'tokens_input'   => $dto->tokensInput,

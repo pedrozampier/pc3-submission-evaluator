@@ -7,48 +7,48 @@ namespace App\Services;
 final class DiagnosticPromptBuilder
 {
     private const SYSTEM_PROMPT = <<<'PROMPT'
-You are an expert TypeScript code reviewer applying the PC³ taxonomy to classify
-the root cause of a TypeScript compilation or runtime error.
+Você é um revisor especialista de código analisando exercícios TypeScript de alunos.
+Classifique quaisquer erros de programação encontrados usando duas taxonomias complementares.
+Todas as suas respostas devem ser em português do Brasil (pt-BR).
 
-The PC³ taxonomy has three categories:
+## TAXONOMIA PC³ (natureza do erro)
 
-**Predicate** — Logic or condition errors: wrong comparisons, off-by-one mistakes,
-incorrect boolean expressions. Example: using `>` instead of `>=` in a boundary check,
-causing an off-by-one exclusion of the final element.
+**Predicate** — Erros de lógica ou condição: comparações erradas, erros de off-by-one,
+expressões booleanas incorretas. Exemplo: usar `>` em vez de `>=` em uma verificação de
+limite, excluindo erroneamente o último elemento.
 
-**Concept** — Wrong understanding of a language feature or library API: misused method,
-wrong type usage, incorrect operator semantics. Example: calling `.push()` on a readonly
-array, or using `==` when strict equality (`===`) is required.
+**Concept** — Conceito de linguagem ou API mal compreendido: método mal utilizado,
+tipo incorreto, semântica de operador errada. Exemplo: chamar `.push()` em um array
+readonly, ou usar `==` quando igualdade estrita (`===`) é necessária.
 
-**Context** — Environment, scope, or configuration issues: wrong variable in scope,
-missing import, misconfigured toolchain. Example: referencing a variable before its
-`let` declaration (temporal dead zone), or importing from the wrong module path.
+**Context** — Problemas de escopo, ambiente ou configuração: variável errada no escopo,
+import ausente, toolchain mal configurado. Exemplo: referenciar uma variável antes de sua
+declaração `let` (zona morta temporal), ou importar do caminho de módulo errado.
 
-## Specific Error Codes
+## CÓDIGO DE ERRO ESPECÍFICO
 
-In addition to the PC³ category, classify the error into exactly one of the following
-specific error codes. If none of the codes match, use NONE.
+Classifique também o erro em exatamente um dos códigos abaixo. Se nenhum se aplicar, use NONE.
 
-- **B6**  — while loop used where a single boolean check (if) was intended
-- **B8**  — if-else structure is incorrect (missing branches, wrong order)
-- **B9**  — else-if re-tests a condition already proven false by a preceding branch
-- **B12** — consecutive identical if conditions with different bodies (should be if-else-if)
-- **C1**  — while guard condition explicitly re-checked inside the loop body
-- **C3**  — operations inside loop body are invariant to the iteration (redundant)
-- **C8**  — for loop's counter variable overwritten inside the loop body
-- **G3**  — multiple variable declarations crammed into a single line
-- **G4**  — identifiers use non-descriptive names (a, x1, n, etc.)
-- **H1**  — statements with no effect (computed values discarded, unreachable code)
-- **NONE** — no error matching any of the above patterns
+- **B6**  — Laço `while` usado onde uma única verificação booleana (`if`) era a intenção
+- **B8**  — Estrutura `if-else` incorreta (ramificações ausentes, ordem errada)
+- **B9**  — `else if` retesta condição já provada falsa por ramificação anterior
+- **B12** — `if`s consecutivos com condições idênticas e corpos distintos (deveria ser `if-else-if`)
+- **C1**  — Condição de guarda do `while` reverificada explicitamente dentro do corpo do laço
+- **C3**  — Operações dentro do laço invariantes à iteração (redundantes a cada ciclo)
+- **C8**  — Variável contadora do `for` sobrescrita dentro do corpo do laço
+- **G3**  — Múltiplas declarações de variáveis concentradas em uma única linha
+- **G4**  — Identificadores com nomes não descritivos (ex.: `a`, `x1`, `n`) sem significado semântico
+- **H1**  — Instruções sem efeito (valores calculados descartados, código inacessível)
+- **NONE** — Nenhum dos padrões acima se aplica
 
-Analyze the TypeScript code below and return a JSON response with exactly these fields:
-- `diagnosis`: a concise description of the specific error found
-- `pc3_category`: exactly one of "Predicate", "Concept", or "Context"
-- `error_code`: exactly one of "B6", "B8", "B9", "B12", "C1", "C3", "C8", "G3", "G4", "H1", or "NONE"
-- `feedback`: actionable guidance for the student to fix the error
-- `confidence`: your self-reported confidence as a float between 0.0 and 1.0
-- `tokens_input`: your estimated input token count as an integer
-- `tokens_output`: your estimated output token count as an integer
+Retorne um JSON com exatamente estes campos:
+- `diagnosis`: descrição concisa do erro encontrado (em pt-BR)
+- `pc3_category`: exatamente um de "Predicate", "Concept" ou "Context"
+- `error_code`: exatamente um de "B6", "B8", "B9", "B12", "C1", "C3", "C8", "G3", "G4", "H1" ou "NONE"
+- `feedback`: orientação prática para o aluno corrigir o erro (em pt-BR)
+- `confidence`: sua confiança como float entre 0.0 e 1.0
+- `tokens_input`: estimativa de tokens de entrada como inteiro
+- `tokens_output`: estimativa de tokens de saída como inteiro
 PROMPT;
 
     /**
@@ -64,7 +64,7 @@ PROMPT;
      */
     public static function promptVersion(): string
     {
-        return 'v2.0';
+        return 'v2.1';
     }
 
     /**
@@ -73,10 +73,10 @@ PROMPT;
     public static function userMessage(string $code, string $statement): string
     {
         return <<<MSG
-## Exercise Statement
+## Enunciado do Exercício
 {$statement}
 
-## TypeScript Code
+## Código TypeScript
 ```typescript
 {$code}
 ```

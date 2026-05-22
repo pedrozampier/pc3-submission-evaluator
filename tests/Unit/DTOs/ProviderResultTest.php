@@ -37,7 +37,7 @@ it('clamps a negative confidence to 0.0', function () {
         provider: 'anthropic',
         model: 'claude-sonnet-4-20250514',
         requestId: 'req-1',
-        promptVersion: 'v2.0',
+        promptVersion: 'v2.1',
     );
 
     expect($dto->confidence)->toBe(0.0);
@@ -59,7 +59,7 @@ it('clamps a confidence above 1.0 to 1.0', function () {
         provider: 'openai',
         model: 'gpt-4o',
         requestId: 'req-2',
-        promptVersion: 'v2.0',
+        promptVersion: 'v2.1',
     );
 
     expect($dto->confidence)->toBe(1.0);
@@ -81,7 +81,7 @@ it('preserves a confidence already in range', function () {
         provider: 'gemini',
         model: 'gemini-2.0-flash',
         requestId: 'req-3',
-        promptVersion: 'v2.0',
+        promptVersion: 'v2.1',
     );
 
     expect($dto->confidence)->toBe(0.7);
@@ -89,7 +89,7 @@ it('preserves a confidence already in range', function () {
     expect($dto->errorCode)->toBe(ErrorCode::from('B6'));
     expect($dto->provider)->toBe('gemini');
     expect($dto->requestId)->toBe('req-3');
-    expect($dto->promptVersion)->toBe('v2.0');
+    expect($dto->promptVersion)->toBe('v2.1');
 });
 
 it('forbids direct instantiation via new', function () {

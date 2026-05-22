@@ -106,7 +106,7 @@ return [
             'key' => env('GEMINI_API_KEY'),
             'models' => [
                 'text' => [
-                    'default' => 'gemini-2.0-flash',
+                    'default' => 'gemini-3.5-flash',
                 ],
             ],
         ],

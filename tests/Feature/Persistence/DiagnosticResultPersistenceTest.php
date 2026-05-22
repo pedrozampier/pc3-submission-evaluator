@@ -42,7 +42,7 @@ it('persists a ProviderResult and round-trips all fields with enum cast', functi
         provider:      'anthropic',
         model:         'claude-sonnet-4-20250514',
         requestId:     '11111111-1111-4111-8111-111111111111',
-        promptVersion: 'v2.0',
+        promptVersion: 'v2.1',
     );
 
     $repo = new DiagnosticResultRepository();
@@ -66,7 +66,7 @@ it('persists a ProviderResult and round-trips all fields with enum cast', functi
     expect($reloaded->tokens_input)->toBe(215);
     expect($reloaded->tokens_output)->toBe(88);
     expect($reloaded->request_id)->toBe('11111111-1111-4111-8111-111111111111');
-    expect($reloaded->prompt_version)->toBe('v2.0');
+    expect($reloaded->prompt_version)->toBe('v2.1');
 });
 
 it('persists clamped confidence (0.0) when fromPrismResponse received a negative value', function () {
@@ -85,7 +85,7 @@ it('persists clamped confidence (0.0) when fromPrismResponse received a negative
         provider:      'openai',
         model:         'gpt-4o',
         requestId:     '22222222-2222-4222-8222-222222222222',
-        promptVersion: 'v2.0',
+        promptVersion: 'v2.1',
     );
 
     // Sanity: clamping happened at construction time (Plan 02's invariant).
@@ -112,7 +112,7 @@ it('rejects a direct insert with an unknown pc3_category via the CHECK constrain
             'tokens_input'   => 1,
             'tokens_output'  => 1,
             'request_id'     => '33333333-3333-4333-8333-333333333333',
-            'prompt_version' => 'v2.0',
+            'prompt_version' => 'v2.1',
             'created_at'     => now(),
             'updated_at'     => now(),
         ]);
@@ -137,7 +137,7 @@ it('rejects a direct insert with an unknown error_code via the CHECK constraint'
             'tokens_input'   => 1,
             'tokens_output'  => 1,
             'request_id'     => '44444444-4444-4444-8444-444444444444',
-            'prompt_version' => 'v2.0',
+            'prompt_version' => 'v2.1',
             'created_at'     => now(),
             'updated_at'     => now(),
         ]);

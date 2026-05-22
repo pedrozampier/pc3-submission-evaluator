@@ -50,7 +50,7 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
     expect($result->provider)->toBe('anthropic');
     expect($result->model)->toBe(config('ai.providers.anthropic.models.text.default'));
     expect($result->model)->toBe('claude-sonnet-4-20250514'); // belt + suspenders — pin came from config
-    expect($result->promptVersion)->toBe('v2.0');
+    expect($result->promptVersion)->toBe('v2.1');
     expect($result->requestId)->toBe($requestId);
     expect($result->diagnosis)->toContain('TS2322');
     expect($result->tokensInput)->toBe(200);
@@ -65,7 +65,7 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
     expect($row->pc3_category)->toBe(Pc3Category::Predicate);
     expect($row->error_code)->toBe(ErrorCode::B6);
     expect($row->provider)->toBe('anthropic');
-    expect($row->prompt_version)->toBe('v2.0');
+    expect($row->prompt_version)->toBe('v2.1');
 });
 
 it('passes a labeled-section user message containing both headings to the agent', function () {
@@ -93,8 +93,8 @@ it('passes a labeled-section user message containing both headings to the agent'
     );
 
     DiagnosticAgent::assertPrompted(function ($prompt) {
-        return str_contains($prompt->prompt, '## Exercise Statement')
-            && str_contains($prompt->prompt, '## TypeScript Code')
+        return str_contains($prompt->prompt, '## Enunciado do Exercício')
+            && str_contains($prompt->prompt, '## Código TypeScript')
             && str_contains($prompt->prompt, 'Declare a constant.')
             && str_contains($prompt->prompt, 'const x = 1;');
     });

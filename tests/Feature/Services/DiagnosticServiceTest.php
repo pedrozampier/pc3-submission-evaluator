@@ -62,7 +62,7 @@ it('fans out to all four providers in parallel and persists every result before 
         expect($r)->toBeInstanceOf(ProviderResult::class);
         expect($r->requestId)->toBe($requestId);
         expect($r->confidence)->toBeFloat()->toBeGreaterThanOrEqual(0.0)->toBeLessThanOrEqual(1.0);
-        expect($r->promptVersion)->toBe('v2.0');
+        expect($r->promptVersion)->toBe('v2.1');
     }
 
     // PERSIST-02: every row must be in DB before run() returned.
@@ -77,7 +77,7 @@ it('fans out to all four providers in parallel and persists every result before 
     expect($models)->toBe([
         'claude-sonnet-4-20250514', // anthropic
         'deepseek-chat',            // deepseek
-        'gemini-2.0-flash',         // gemini
+        'gemini-3.5-flash',         // gemini
         'gpt-4o',                   // openai
     ]);
 });

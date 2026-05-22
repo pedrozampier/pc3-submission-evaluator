@@ -5,7 +5,7 @@ milestone_name: milestone
 status: verifying
 stopped_at: Completed 04-01-PLAN.md — POST /api/diagnose endpoint wired
 last_updated: "2026-04-28T17:50:44.210Z"
-last_activity: 2026-04-28
+last_activity: 2026-05-22
 progress:
   total_phases: 4
   completed_phases: 4
@@ -93,9 +93,15 @@ None yet.
 
 None.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260522-kxk | Add error_code field to prompt and schema | 2026-05-22 | e525b4b | [260522-kxk-add-error-code-field-to-prompt-and-schem](./quick/260522-kxk-add-error-code-field-to-prompt-and-schem/) |
+
 ## Session Continuity
 
-Last session: 2026-04-28T17:50:44.206Z
-Stopped at: Completed 04-01-PLAN.md — POST /api/diagnose endpoint wired
+Last session: 2026-05-22
+Stopped at: Completed quick task 260522-kxk — Add error_code field to prompt and schema
 Resume file: None
 Resume context: Phase 2 plan verified (3/3 REQ-IDs covered). 1 plan, 1 wave. Ready to execute Phase 2.

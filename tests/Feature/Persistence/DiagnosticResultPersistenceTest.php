@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\DTOs\ErrorCode;
 use App\DTOs\Pc3Category;
 use App\DTOs\ProviderResult;
 use App\Models\DiagnosticResult;
@@ -29,6 +30,7 @@ it('persists a ProviderResult and round-trips all fields with enum cast', functi
     $response = makeResponse([
         'diagnosis'     => 'TS2322: Type "string" is not assignable to type "number"',
         'pc3_category'  => 'Predicate',
+        'error_code'    => 'B6',
         'feedback'      => 'Change the literal to a number, e.g. `42` instead of `"42"`.',
         'confidence'    => 0.92,
         'tokens_input'  => 215,
@@ -40,7 +42,7 @@ it('persists a ProviderResult and round-trips all fields with enum cast', functi
         provider:      'anthropic',
         model:         'claude-sonnet-4-20250514',
         requestId:     '11111111-1111-4111-8111-111111111111',
-        promptVersion: 'v1.0',
+        promptVersion: 'v2.0',
     );
 
     $repo = new DiagnosticResultRepository();
@@ -58,18 +60,20 @@ it('persists a ProviderResult and round-trips all fields with enum cast', functi
     expect($reloaded->model)->toBe('claude-sonnet-4-20250514');
     expect($reloaded->diagnosis)->toBe('TS2322: Type "string" is not assignable to type "number"');
     expect($reloaded->pc3_category)->toBe(Pc3Category::Predicate); // enum cast applied
+    expect($reloaded->error_code)->toBe(ErrorCode::from('B6'));    // enum cast applied
     expect($reloaded->feedback)->toContain('Change the literal');
     expect($reloaded->confidence)->toBe(0.92);
     expect($reloaded->tokens_input)->toBe(215);
     expect($reloaded->tokens_output)->toBe(88);
     expect($reloaded->request_id)->toBe('11111111-1111-4111-8111-111111111111');
-    expect($reloaded->prompt_version)->toBe('v1.0');
+    expect($reloaded->prompt_version)->toBe('v2.0');
 });
 
 it('persists clamped confidence (0.0) when fromPrismResponse received a negative value', function () {
     $response = makeResponse([
         'diagnosis'     => 'd',
         'pc3_category'  => 'Concept',
+        'error_code'    => 'NONE',
         'feedback'      => 'f',
         'confidence'    => -2.5, // out of range; DTO must clamp to 0.0
         'tokens_input'  => 1,
@@ -81,7 +85,7 @@ it('persists clamped confidence (0.0) when fromPrismResponse received a negative
         provider:      'openai',
         model:         'gpt-4o',
         requestId:     '22222222-2222-4222-8222-222222222222',
-        promptVersion: 'v1.0',
+        promptVersion: 'v2.0',
     );
 
     // Sanity: clamping happened at construction time (Plan 02's invariant).
@@ -102,17 +106,43 @@ it('rejects a direct insert with an unknown pc3_category via the CHECK constrain
             'model'          => 'gemini-2.0-flash',
             'diagnosis'      => 'd',
             'pc3_category'   => 'Bogus',
+            'error_code'     => 'NONE',
             'feedback'       => 'f',
             'confidence'     => 0.5,
             'tokens_input'   => 1,
             'tokens_output'  => 1,
             'request_id'     => '33333333-3333-4333-8333-333333333333',
-            'prompt_version' => 'v1.0',
+            'prompt_version' => 'v2.0',
             'created_at'     => now(),
             'updated_at'     => now(),
         ]);
         // If we reach here, the CHECK constraint didn't fire — fail the test.
         $this->fail('Expected a CHECK constraint violation for pc3_category=Bogus');
+    } catch (\Illuminate\Database\QueryException $e) {
+        expect($e->getMessage())->toContain('check'); // SQLite "CHECK constraint failed: ..."
+    }
+});
+
+it('rejects a direct insert with an unknown error_code via the CHECK constraint', function () {
+    // Bypass the model — go straight at the DB to prove the CHECK constraint exists for error_code.
+    try {
+        \Illuminate\Support\Facades\DB::table('diagnostic_results')->insert([
+            'provider'       => 'gemini',
+            'model'          => 'gemini-2.0-flash',
+            'diagnosis'      => 'd',
+            'pc3_category'   => 'Predicate',
+            'error_code'     => 'Bogus',
+            'feedback'       => 'f',
+            'confidence'     => 0.5,
+            'tokens_input'   => 1,
+            'tokens_output'  => 1,
+            'request_id'     => '44444444-4444-4444-8444-444444444444',
+            'prompt_version' => 'v2.0',
+            'created_at'     => now(),
+            'updated_at'     => now(),
+        ]);
+        // If we reach here, the CHECK constraint didn't fire — fail the test.
+        $this->fail('Expected a CHECK constraint violation for error_code=Bogus');
     } catch (\Illuminate\Database\QueryException $e) {
         expect($e->getMessage())->toContain('check'); // SQLite "CHECK constraint failed: ..."
     }

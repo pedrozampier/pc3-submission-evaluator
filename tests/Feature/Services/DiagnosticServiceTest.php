@@ -27,6 +27,7 @@ function fakeResponse(string $category = 'Predicate', float $confidence = 0.85):
     return [
         'diagnosis'     => 'Test diagnosis for ' . $category,
         'pc3_category'  => $category,
+        'error_code'    => 'NONE',
         'feedback'      => 'Test feedback',
         'confidence'    => $confidence,
         'tokens_input'  => 100,
@@ -61,7 +62,7 @@ it('fans out to all four providers in parallel and persists every result before 
         expect($r)->toBeInstanceOf(ProviderResult::class);
         expect($r->requestId)->toBe($requestId);
         expect($r->confidence)->toBeFloat()->toBeGreaterThanOrEqual(0.0)->toBeLessThanOrEqual(1.0);
-        expect($r->promptVersion)->toBe('v1.0');
+        expect($r->promptVersion)->toBe('v2.0');
     }
 
     // PERSIST-02: every row must be in DB before run() returned.

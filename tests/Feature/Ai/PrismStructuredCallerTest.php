@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Ai\Agents\DiagnosticAgent;
+use App\DTOs\ErrorCode;
 use App\DTOs\Pc3Category;
 use App\DTOs\ProviderResult;
 use App\Models\DiagnosticResult;
@@ -17,6 +18,7 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
         [
             'diagnosis'     => 'TS2322: Type "string" is not assignable to type "number"',
             'pc3_category'  => 'Predicate',
+            'error_code'    => 'B6',
             'feedback'      => 'Change the literal to a number, e.g. 42 instead of "42".',
             'confidence'    => 0.88,
             'tokens_input'  => 200,
@@ -40,6 +42,7 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
     // ProviderResult shape — schema compliance.
     expect($result)->toBeInstanceOf(ProviderResult::class);
     expect($result->pc3Category)->toBe(Pc3Category::Predicate);
+    expect($result->errorCode)->toBe(ErrorCode::B6);
     expect($result->confidence)
         ->toBeFloat()
         ->toBeGreaterThanOrEqual(0.0)
@@ -47,7 +50,7 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
     expect($result->provider)->toBe('anthropic');
     expect($result->model)->toBe(config('ai.providers.anthropic.models.text.default'));
     expect($result->model)->toBe('claude-sonnet-4-20250514'); // belt + suspenders — pin came from config
-    expect($result->promptVersion)->toBe('v1.0');
+    expect($result->promptVersion)->toBe('v2.0');
     expect($result->requestId)->toBe($requestId);
     expect($result->diagnosis)->toContain('TS2322');
     expect($result->tokensInput)->toBe(200);
@@ -60,8 +63,9 @@ it('returns a schema-compliant ProviderResult and persists it via the repository
 
     expect($row)->not->toBeNull();
     expect($row->pc3_category)->toBe(Pc3Category::Predicate);
+    expect($row->error_code)->toBe(ErrorCode::B6);
     expect($row->provider)->toBe('anthropic');
-    expect($row->prompt_version)->toBe('v1.0');
+    expect($row->prompt_version)->toBe('v2.0');
 });
 
 it('passes a labeled-section user message containing both headings to the agent', function () {
@@ -69,6 +73,7 @@ it('passes a labeled-section user message containing both headings to the agent'
         [
             'diagnosis'     => 'd',
             'pc3_category'  => 'Concept',
+            'error_code'    => 'NONE',
             'feedback'      => 'f',
             'confidence'    => 0.5,
             'tokens_input'  => 10,
@@ -100,6 +105,7 @@ it('clamps out-of-range confidence to [0.0, 1.0] when the LLM over-reports', fun
         [
             'diagnosis'     => 'd',
             'pc3_category'  => 'Context',
+            'error_code'    => 'H1',
             'feedback'      => 'f',
             'confidence'    => 1.5, // out of range — must clamp to 1.0
             'tokens_input'  => 1,

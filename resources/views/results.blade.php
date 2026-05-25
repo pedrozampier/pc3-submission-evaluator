@@ -63,6 +63,9 @@ summary:hover { color: #475569; }
 
 .group-header { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.4rem; }
 .group-num { font-size: 0.85rem; font-weight: 600; color: #1e293b; }
+.group-label { cursor: pointer; }
+.group-label:hover { text-decoration: underline; }
+.label-input { font-size: 0.85rem; font-weight: 600; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0.1rem 0.4rem; min-width: 240px; }
 .group-meta { font-size: 0.75rem; color: #94a3b8; }
 .call-num { font-size: 0.8rem; font-weight: 700; color: #334155; }
 
@@ -102,13 +105,24 @@ summary:hover { color: #475569; }
     @else
     @foreach ($exerciseGroups as $gi => $group)
         @php
-            $num   = $exerciseGroups->count() - $gi;
-            $first = $group->first()['created_at'];
-            $last  = $group->last()['created_at'];
-            $range = $first->format('d/m H:i') . ($group->count() > 1 ? ' – ' . $last->format('H:i') : '');
+            $num    = $exerciseGroups->count() - $gi;
+            $first  = $group->first()['created_at'];
+            $last   = $group->last()['created_at'];
+            $range  = $first->format('d/m H:i') . ($group->count() > 1 ? ' – ' . $last->format('H:i') : '');
+            $anchor = $group->first()['request_id'];
+            $label  = $labels[$anchor]->label ?? null;
         @endphp
         <div class="group-header">
-            <span class="group-num">Exercício {{ $num }}</span>
+            <span class="group-num group-label"
+                  onclick="this.hidden=true;this.nextElementSibling.hidden=false;this.nextElementSibling.querySelector('input[name=label]').focus()">{{ $label ?? 'Exercício '.$num }}</span>
+            <form hidden method="POST" action="/results/label" style="display:inline">
+                @csrf
+                <input type="hidden" name="anchor_request_id" value="{{ $anchor }}">
+                <input type="text" name="label" value="{{ $label ?? '' }}" placeholder="Nome do exercício..."
+                       class="label-input"
+                       onblur="this.form.submit()"
+                       onkeydown="if(event.key==='Enter'){event.preventDefault();this.form.submit()}">
+            </form>
             <span class="group-meta">{{ $range }} · {{ $group->count() }} {{ $group->count() === 1 ? 'chamada' : 'chamadas' }}</span>
         </div>
         <div class="card" style="margin-bottom:1.5rem">

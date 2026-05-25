@@ -60,6 +60,11 @@ summary:hover { color: #475569; }
 .empty { padding: 3rem; text-align: center; color: #94a3b8; font-size: 0.9rem; }
 
 .stat-cats { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.group-header { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.4rem; }
+.group-num { font-size: 0.85rem; font-weight: 600; color: #1e293b; }
+.group-meta { font-size: 0.75rem; color: #94a3b8; }
+.call-num { font-size: 0.8rem; font-weight: 700; color: #334155; }
 </style>
 </head>
 <body>
@@ -86,54 +91,67 @@ summary:hover { color: #475569; }
 
 @if ($view === 'exercise')
 
-    @if ($byExercise->isEmpty())
+    @if ($exerciseGroups->isEmpty())
         <div class="card"><div class="empty">Nenhum resultado encontrado.</div></div>
     @else
-    <div class="card">
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:120px">Quando</th>
-                        <th>Anthropic</th>
-                        <th>OpenAI</th>
-                        <th>Gemini</th>
-                        <th>DeepSeek</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach ($byExercise as $group)
-                    @php $prov = $group['providers']; @endphp
-                    <tr>
-                        <td>
-                            <div class="ts">{{ $group['created_at']->format('d/m H:i:s') }}</div>
-                            <div class="rid">{{ substr($group['request_id'], 0, 8) }}…</div>
-                        </td>
-                        @foreach (['anthropic', 'openai', 'gemini', 'deepseek'] as $p)
-                        <td>
-                            @if (isset($prov[$p]))
-                                @php $r = $prov[$p]; @endphp
-                                <span class="badge {{ $r->pc3_category->value }}">{{ $r->pc3_category->value }}</span>
-                                <span class="badge code-badge">{{ $r->error_code->value }}</span>
-                                <div class="meta">{{ number_format($r->confidence * 100, 0) }}% conf · {{ $r->latency_ms }}ms</div>
-                                <details>
-                                    <summary>diagnóstico</summary>
-                                    <div class="detail-box">
-                                        <strong>Diagnóstico:</strong><br>{{ $r->diagnosis }}<br><br>
-                                        <strong>Feedback:</strong><br>{{ $r->feedback }}
-                                    </div>
-                                </details>
-                            @else
-                                <span style="color:#cbd5e1">—</span>
-                            @endif
-                        </td>
-                        @endforeach
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+    @foreach ($exerciseGroups as $gi => $group)
+        @php
+            $num   = $exerciseGroups->count() - $gi;
+            $first = $group->first()['created_at'];
+            $last  = $group->last()['created_at'];
+            $range = $first->format('d/m H:i') . ($group->count() > 1 ? ' – ' . $last->format('H:i') : '');
+        @endphp
+        <div class="group-header">
+            <span class="group-num">Exercício {{ $num }}</span>
+            <span class="group-meta">{{ $range }} · {{ $group->count() }} {{ $group->count() === 1 ? 'chamada' : 'chamadas' }}</span>
         </div>
-    </div>
+        <div class="card" style="margin-bottom:1.5rem">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:100px">Chamada</th>
+                            <th>Anthropic</th>
+                            <th>OpenAI</th>
+                            <th>Gemini</th>
+                            <th>DeepSeek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($group as $ci => $call)
+                        @php $prov = $call['providers']; @endphp
+                        <tr>
+                            <td>
+                                <div class="call-num">#{{ $ci + 1 }}</div>
+                                <div class="ts">{{ $call['created_at']->format('H:i:s') }}</div>
+                                <div class="rid">{{ substr($call['request_id'], 0, 8) }}…</div>
+                            </td>
+                            @foreach (['anthropic', 'openai', 'gemini', 'deepseek'] as $p)
+                            <td>
+                                @if (isset($prov[$p]))
+                                    @php $r = $prov[$p]; @endphp
+                                    <span class="badge {{ $r->pc3_category->value }}">{{ $r->pc3_category->value }}</span>
+                                    <span class="badge code-badge">{{ $r->error_code->value }}</span>
+                                    <div class="meta">{{ number_format($r->confidence * 100, 0) }}% conf · {{ $r->latency_ms }}ms</div>
+                                    <details>
+                                        <summary>diagnóstico</summary>
+                                        <div class="detail-box">
+                                            <strong>Diagnóstico:</strong><br>{{ $r->diagnosis }}<br><br>
+                                            <strong>Feedback:</strong><br>{{ $r->feedback }}
+                                        </div>
+                                    </details>
+                                @else
+                                    <span style="color:#cbd5e1">—</span>
+                                @endif
+                            </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endforeach
     @endif
 
 @else {{-- por LLM --}}

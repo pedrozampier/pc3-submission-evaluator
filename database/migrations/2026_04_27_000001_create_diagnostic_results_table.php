@@ -14,12 +14,7 @@ return new class extends Migration {
             $table->string('provider');
             $table->string('model');
             $table->text('diagnosis');
-            // D-05: string column + inline CHECK constraint (Blueprint::check() absent in Laravel 13.6.0).
-            // rawColumn() emits the definition verbatim, giving us a named constraint on SQLite.
-            $table->rawColumn(
-                'pc3_category',
-                "varchar not null constraint check_pc3_category check (pc3_category IN ('Predicate', 'Concept', 'Context'))"
-            );
+            $table->enum('pc3_category', ['Predicate', 'Concept', 'Context']);
             $table->text('feedback');
             $table->float('confidence');
             $table->integer('tokens_input');

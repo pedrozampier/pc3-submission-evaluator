@@ -20,6 +20,7 @@ final class ProviderResult
         public readonly int         $tokensOutput,
         public readonly string      $requestId,
         public readonly string      $promptVersion,
+        public readonly int         $latencyMs = 0,
     ) {}
 
     public static function fromPrismResponse(
@@ -28,6 +29,7 @@ final class ProviderResult
         string $model,
         string $requestId,
         string $promptVersion,
+        int $latencyMs = 0,
     ): self {
         return new self(
             provider:      $provider,
@@ -41,6 +43,7 @@ final class ProviderResult
             tokensOutput:  (int) $response['tokens_output'],
             requestId:     $requestId,
             promptVersion: $promptVersion,
+            latencyMs:     $latencyMs,
         );
     }
 }

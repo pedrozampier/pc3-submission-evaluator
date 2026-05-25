@@ -100,6 +100,41 @@ it('passes a labeled-section user message containing both headings to the agent'
     });
 });
 
+it('persists a non-negative integer latency_ms on the saved row', function () {
+    DiagnosticAgent::fake([
+        [
+            'diagnosis'     => 'd',
+            'pc3_category'  => 'Predicate',
+            'error_code'    => 'B6',
+            'feedback'      => 'f',
+            'confidence'    => 0.5,
+            'tokens_input'  => 10,
+            'tokens_output' => 10,
+        ],
+    ]);
+
+    $caller = new PrismStructuredCaller(
+        provider:   'anthropic',
+        model:      config('ai.providers.anthropic.models.text.default'),
+        repository: new DiagnosticResultRepository(),
+    );
+    $requestId = '44444444-4444-4444-8444-444444444444';
+
+    $result = $caller->call(
+        code:      'const y = 1;',
+        statement: 'Test latency.',
+        requestId: $requestId,
+    );
+
+    // DTO exposes latencyMs as a non-negative integer.
+    expect($result->latencyMs)->toBeInt()->toBeGreaterThanOrEqual(0);
+
+    // Persisted row round-trips the integer value.
+    $row = DiagnosticResult::query()->where('request_id', $requestId)->first();
+    expect($row)->not->toBeNull();
+    expect($row->latency_ms)->toBeInt()->toBeGreaterThanOrEqual(0);
+});
+
 it('clamps out-of-range confidence to [0.0, 1.0] when the LLM over-reports', function () {
     DiagnosticAgent::fake([
         [

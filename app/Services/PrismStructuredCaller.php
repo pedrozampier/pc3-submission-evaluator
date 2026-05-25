@@ -23,6 +23,8 @@ final class PrismStructuredCaller
     {
         $userMessage = DiagnosticPromptBuilder::userMessage($code, $statement);
 
+        $startedAt = hrtime(true);
+
         /** @var \Laravel\Ai\Responses\StructuredAgentResponse $response */
         $response = (new DiagnosticAgent)->prompt(
             $userMessage,
@@ -30,12 +32,15 @@ final class PrismStructuredCaller
             model:    $this->model,
         );
 
+        $latencyMs = (int) round((hrtime(true) - $startedAt) / 1_000_000);
+
         $result = ProviderResult::fromPrismResponse(
             response:      $response,
             provider:      $this->provider,
             model:         $this->model,
             requestId:     $requestId,
             promptVersion: DiagnosticPromptBuilder::promptVersion(),
+            latencyMs:     $latencyMs,
         );
 
         $this->repository->save($result);

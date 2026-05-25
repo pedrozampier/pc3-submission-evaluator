@@ -28,6 +28,7 @@ final class DiagnosticResultRepository
             'confidence'     => $dto->confidence,
             'tokens_input'   => $dto->tokensInput,
             'tokens_output'  => $dto->tokensOutput,
+            'latency_ms'     => $dto->latencyMs,
             'request_id'     => $dto->requestId,
             'prompt_version' => $dto->promptVersion,
         ]);

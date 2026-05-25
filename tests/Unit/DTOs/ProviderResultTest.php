@@ -102,3 +102,48 @@ it('is final', function () {
     $reflection = new ReflectionClass(ProviderResult::class);
     expect($reflection->isFinal())->toBeTrue();
 });
+
+it('defaults latencyMs to 0 when fromPrismResponse is called without latencyMs', function () {
+    $response = makeStubResponse([
+        'diagnosis'    => 'Unused variable',
+        'pc3_category' => 'Predicate',
+        'error_code'   => 'B9',
+        'feedback'     => 'Remove the variable',
+        'confidence'   => 0.6,
+        'tokens_input' => 50,
+        'tokens_output' => 20,
+    ]);
+
+    $dto = ProviderResult::fromPrismResponse(
+        response: $response,
+        provider: 'anthropic',
+        model: 'claude-sonnet-4-20250514',
+        requestId: 'req-latency-default',
+        promptVersion: 'v2.1',
+    );
+
+    expect($dto->latencyMs)->toBe(0);
+});
+
+it('preserves a provided latencyMs value when passed to fromPrismResponse', function () {
+    $response = makeStubResponse([
+        'diagnosis'    => 'Missing semicolon',
+        'pc3_category' => 'Context',
+        'error_code'   => 'C1',
+        'feedback'     => 'Add semicolon',
+        'confidence'   => 0.9,
+        'tokens_input' => 60,
+        'tokens_output' => 25,
+    ]);
+
+    $dto = ProviderResult::fromPrismResponse(
+        response:      $response,
+        provider:      'openai',
+        model:         'gpt-4o',
+        requestId:     'req-latency-123',
+        promptVersion: 'v2.1',
+        latencyMs:     123,
+    );
+
+    expect($dto->latencyMs)->toBe(123);
+});

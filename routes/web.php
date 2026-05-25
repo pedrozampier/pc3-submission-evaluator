@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ResultsController;
+use App\Http\Controllers\StoreLabelController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,3 +9,4 @@ Route::get('/', function () {
 });
 
 Route::get('/results', ResultsController::class);
+Route::post('/results/label', StoreLabelController::class);

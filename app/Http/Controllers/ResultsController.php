@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\DiagnosticResult;
+use App\Models\ExerciseLabel;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -59,6 +60,8 @@ final class ResultsController extends Controller
             'by_category' => $all->groupBy(fn ($r) => $r->pc3_category->value)->map->count(),
         ];
 
-        return view('results', compact('view', 'exerciseGroups', 'byLlm', 'stats'));
+        $labels = ExerciseLabel::all()->keyBy('anchor_request_id');
+
+        return view('results', compact('view', 'exerciseGroups', 'byLlm', 'stats', 'labels'));
     }
 }

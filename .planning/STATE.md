@@ -101,10 +101,12 @@ None.
 | 2026-05-22 | fast | Translate system prompt to pt-BR + Gemini model gemini-3.5-flash | 4f428eb | — |
 | 260525-j03 | Add latency_ms tracking to each LLM provider call | 2026-05-25 | 77bca28 | [260525-j03-add-latency-ms-tracking-to-each-llm-prov](./quick/260525-j03-add-latency-ms-tracking-to-each-llm-prov/) |
 | 2026-05-25 | fast | Fix rawColumn() migrations for MariaDB — replace with enum() | fc5fa52 | — |
+| 2026-05-25 | fast | Add /results dashboard — por exercício e por LLM | 5514509 | — |
+| 260525-s5s | Add persistent custom labels to exercise groups | 2026-05-25 | e1c5acb | [260525-s5s-add-persistent-custom-labels-to-exercise](./quick/260525-s5s-add-persistent-custom-labels-to-exercise/) |
 
 ## Session Continuity
 
 Last session: 2026-05-25
-Stopped at: Completed quick task 260525-j03 — latency_ms tracking added to each LLM provider call
+Stopped at: Completed quick task 260525-s5s — persistent custom labels for exercise groups on /results dashboard
 Resume file: None
 Resume context: Phase 2 plan verified (3/3 REQ-IDs covered). 1 plan, 1 wave. Ready to execute Phase 2.

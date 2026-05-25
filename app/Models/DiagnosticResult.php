@@ -23,6 +23,7 @@ class DiagnosticResult extends Model
         'confidence',
         'tokens_input',
         'tokens_output',
+        'latency_ms',
         'request_id',
         'prompt_version',
     ];
@@ -35,6 +36,7 @@ class DiagnosticResult extends Model
             'confidence'    => 'float',
             'tokens_input'  => 'integer',
             'tokens_output' => 'integer',
+            'latency_ms'    => 'integer',
         ];
     }
 }

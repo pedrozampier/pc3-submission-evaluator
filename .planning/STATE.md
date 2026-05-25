@@ -100,6 +100,7 @@ None.
 | 260522-kxk | Add error_code field to prompt and schema | 2026-05-22 | e525b4b | [260522-kxk-add-error-code-field-to-prompt-and-schem](./quick/260522-kxk-add-error-code-field-to-prompt-and-schem/) |
 | 2026-05-22 | fast | Translate system prompt to pt-BR + Gemini model gemini-3.5-flash | 4f428eb | — |
 | 260525-j03 | Add latency_ms tracking to each LLM provider call | 2026-05-25 | 77bca28 | [260525-j03-add-latency-ms-tracking-to-each-llm-prov](./quick/260525-j03-add-latency-ms-tracking-to-each-llm-prov/) |
+| 2026-05-25 | fast | Fix rawColumn() migrations for MariaDB — replace with enum() | fc5fa52 | — |
 
 ## Session Continuity
 

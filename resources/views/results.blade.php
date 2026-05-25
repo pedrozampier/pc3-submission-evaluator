@@ -133,6 +133,7 @@ summary:hover { color: #475569; }
                                     <span class="badge {{ $r->pc3_category->value }}">{{ $r->pc3_category->value }}</span>
                                     <span class="badge code-badge">{{ $r->error_code->value }}</span>
                                     <div class="meta">{{ number_format($r->confidence * 100, 0) }}% conf · {{ $r->latency_ms }}ms</div>
+                                    <div class="meta">{{ $r->tokens_input }}↑ {{ $r->tokens_output }}↓ tokens</div>
                                     <details>
                                         <summary>diagnóstico</summary>
                                         <div class="detail-box">
@@ -176,6 +177,8 @@ summary:hover { color: #475569; }
                             <th>Código</th>
                             <th>Confiança</th>
                             <th>Latência</th>
+                            <th>Tokens ↑</th>
+                            <th>Tokens ↓</th>
                             <th>Diagnóstico</th>
                         </tr>
                     </thead>
@@ -190,6 +193,8 @@ summary:hover { color: #475569; }
                             <td><span class="badge code-badge">{{ $r->error_code->value }}</span></td>
                             <td>{{ number_format($r->confidence * 100, 0) }}%</td>
                             <td>{{ $r->latency_ms }}ms</td>
+                            <td>{{ $r->tokens_input }}</td>
+                            <td>{{ $r->tokens_output }}</td>
                             <td>
                                 <details>
                                     <summary>ver</summary>

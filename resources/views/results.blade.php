@@ -65,6 +65,12 @@ summary:hover { color: #475569; }
 .group-num { font-size: 0.85rem; font-weight: 600; color: #1e293b; }
 .group-meta { font-size: 0.75rem; color: #94a3b8; }
 .call-num { font-size: 0.8rem; font-weight: 700; color: #334155; }
+
+.totals-row td { background: #f8fafc; border-top: 2px solid #e2e8f0; padding: 0.6rem 0.9rem; }
+.totals-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; }
+.total-in  { font-size: 0.78rem; font-weight: 600; color: #3b82f6; margin-right: 0.3rem; }
+.total-out { font-size: 0.78rem; font-weight: 600; color: #8b5cf6; }
+.total-sum { font-size: 0.72rem; color: #64748b; margin-top: 0.1rem; }
 </style>
 </head>
 <body>
@@ -149,6 +155,35 @@ summary:hover { color: #475569; }
                         </tr>
                     @endforeach
                     </tbody>
+                    <tfoot>
+                        @php
+                            $totals = [];
+                            foreach (['anthropic', 'openai', 'gemini', 'deepseek'] as $p) {
+                                $in = $out = 0;
+                                foreach ($group as $call) {
+                                    if (isset($call['providers'][$p])) {
+                                        $in  += $call['providers'][$p]->tokens_input;
+                                        $out += $call['providers'][$p]->tokens_output;
+                                    }
+                                }
+                                $totals[$p] = ['in' => $in, 'out' => $out];
+                            }
+                        @endphp
+                        <tr class="totals-row">
+                            <td class="totals-label">Total tokens</td>
+                            @foreach (['anthropic', 'openai', 'gemini', 'deepseek'] as $p)
+                            <td>
+                                @if ($totals[$p]['in'] > 0)
+                                    <span class="total-in">{{ number_format($totals[$p]['in']) }}↑</span>
+                                    <span class="total-out">{{ number_format($totals[$p]['out']) }}↓</span>
+                                    <div class="total-sum">= {{ number_format($totals[$p]['in'] + $totals[$p]['out']) }}</div>
+                                @else
+                                    <span style="color:#cbd5e1">—</span>
+                                @endif
+                            </td>
+                            @endforeach
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

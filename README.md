@@ -53,7 +53,7 @@ As chaves de API dos quatro provedores usados pelo broker são lidas via variáv
 
 | Variável de ambiente | Provedor | Modelo padrão (`config/ai.php`) |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Anthropic (Claude) | `claude-sonnet-4-20250514` |
+| `ANTHROPIC_API_KEY` | Anthropic (Claude) | `claude-sonnet-4-6` |
 | `OPENAI_API_KEY` | OpenAI (GPT-4) | `gpt-4o` |
 | `GEMINI_API_KEY` | Google Gemini | `gemini-3.5-flash` |
 | `DEEPSEEK_API_KEY` | DeepSeek | `deepseek-chat` |
@@ -115,7 +115,7 @@ Array JSON com 0 a 4 itens — um objeto por provedor que respondeu com sucesso.
 [
   {
     "provider": "anthropic",
-    "model": "claude-sonnet-4-20250514",
+    "model": "claude-sonnet-4-6",
     "diagnosis": "O argumento \"2\" é uma string, mas o parâmetro a foi tipado como number.",
     "pc3_category": "Predicate",
     "feedback": "Remova as aspas de \"2\" para que o valor seja um number literal, compatível com a assinatura da função.",

@@ -56,7 +56,7 @@ return [
             'url' => env('ANTHROPIC_URL', 'https://api.anthropic.com/v1'),
             'models' => [
                 'text' => [
-                    'default' => 'claude-sonnet-4-20250514',
+                    'default' => 'claude-sonnet-4-6',
                 ],
             ],
         ],

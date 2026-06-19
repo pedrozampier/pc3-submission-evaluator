@@ -178,9 +178,3 @@ cp database/database.sqlite backup.sqlite
 ## Dashboard de resultados (opcional)
 
 A rota `GET /results` expõe um painel web de comparação dos diagnósticos, organizados por exercício e por LLM. É possível atribuir rótulos personalizados e persistentes a cada grupo de exercício via `POST /results/label`.
-
-## Escopo / limitações (MVP)
-
-- Sem autenticação no endpoint `POST /api/diagnose`.
-- Escopo focado em um único endpoint de diagnóstico; o dashboard `/results` é um recurso auxiliar de visualização.
-- Sem retry automático ou rate-limiting avançado nas chamadas aos provedores — falhas são apenas registradas em log e omitidas do resultado.

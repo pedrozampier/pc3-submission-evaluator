@@ -103,10 +103,11 @@ None.
 | 2026-05-25 | fast | Fix rawColumn() migrations for MariaDB — replace with enum() | fc5fa52 | — |
 | 2026-05-25 | fast | Add /results dashboard — por exercício e por LLM | 5514509 | — |
 | 260525-s5s | Add persistent custom labels to exercise groups | 2026-05-25 | e1c5acb | [260525-s5s-add-persistent-custom-labels-to-exercise](./quick/260525-s5s-add-persistent-custom-labels-to-exercise/) |
+| 260619-d1d | Rewrite README.md in pt-BR reflecting real stack (Laravel 13 + laravel/ai) — human-verify checkpoint pending | 2026-06-19 | 0ba1db5 | [260619-d1d-documenta-o-em-portugu-s-no-readme-md-do](./quick/260619-d1d-documenta-o-em-portugu-s-no-readme-md-do/) |
 
 ## Session Continuity
 
-Last session: 2026-05-25
-Stopped at: Completed quick task 260525-s5s — persistent custom labels for exercise groups on /results dashboard
+Last session: 2026-06-19
+Stopped at: Completed Task 1 of quick task 260619-d1d (README.md pt-BR rewrite); blocking human-verify checkpoint (Task 2) still pending user approval
 Resume file: None
-Resume context: Phase 2 plan verified (3/3 REQ-IDs covered). 1 plan, 1 wave. Ready to execute Phase 2.
+Resume context: Quick task 260619-d1d Task 1 committed (0ba1db5) on branch quick-260619-d1d (created from main inside worktree agent-add1e427f381d19c8, which was unexpectedly checked out on an unrelated legacy branch). User must review README.md and respond "aprovado" or request adjustments before this quick task is considered fully complete.

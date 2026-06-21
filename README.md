@@ -31,7 +31,7 @@ Os quatro provedores respondem a uma única requisição de diagnóstico em para
 ## Instalação
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/pedrozampier/pc3-submission-evaluator.git
 cd pc3-submission-evaluator
 
 composer install
